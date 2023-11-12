@@ -30,10 +30,18 @@ register_layout = html.Div(
 front_layout = html.Div([
     dcc.Link("/login", href='login'),
     dcc.Link("/register", href='register'),
-    html.H2('Welcome to My Dash App!'),
+    html.H2('IMDB Data Analytic Thing! WOOHOO!'),
     # Add your main app content here
 ])
 
 main_layout = html.Div([
+    html.Button('Logout', id='logout-button'),
+    html.Button('Movies', id='movies-button'),
+    html.Button('Series', id='series-button'),
+    html.Button('Add movie', id='add-movie-button'),
+    html.Button('Edit movie', id='edit-movie-button'),
+    html.Button('Add series', id='add-series-button'),
+    html.Button('Edit series', id='edit-series-button'),
+    html.Div(id='logout-output'),
     html.H1('work in progress')
 ])
