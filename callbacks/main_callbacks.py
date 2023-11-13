@@ -25,9 +25,7 @@ def display_page(pathname):
         layout = titles_layout(title_data, pathname)
     if '/title' in pathname:
         title_id = 0
-    return html.Div(f'Logged in as {session["logged_in_user"]}',
-                    style={'display': 'flex', 'justify-content': 'right'}), \
-           layout
+    return get_header_layout(session['logged_in_user']), layout
 
 
 @app.callback(Output('url', 'pathname', allow_duplicate=True),

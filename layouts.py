@@ -1,5 +1,40 @@
 from dash import *
 
+purple = '#22092C'
+dark_red = '#872341'
+light_red = '#BE3144'
+orange = '#F05941'
+
+
+def get_header_layout(username=None):
+    if username is not None:
+        return get_logged_header(username)
+    return None
+
+
+def get_logged_header(username):
+    return html.Div([
+        html.Div('IMDB',
+                 style={'backgroundColor': orange,
+                        'color': purple,
+                        'fontSize': '50px'}),
+        html.Div([
+            html.Div(f'Logged in as {username}',
+                     style={'display': 'flex', 'justify-content': 'right'}),
+            html.Div(
+                html.Button('Logout', id='logout-button'),
+                style={'display': 'flex', 'justify-content': 'right'})],
+            style={'display': 'flex', 'flexDirection': 'column'}
+            ),
+    ],
+        style={'backgroundColor': dark_red, "height": "60px", 'display': 'flex', 'justify-content': 'space-between'}
+    )
+
+
+def get_basic_header():
+    pass
+
+
 # Layout for the login page
 login_layout = html.Div(
     style={'backgroundColor': '#f2f2f2', 'padding': '20px', 'textAlign': 'center'},
@@ -86,10 +121,6 @@ buttonStyle = {
 
 main_layout = html.Div([
     html.Div(
-        html.Button('Logout', id='logout-button'),
-        style={'display': 'flex', 'justify-content': 'right'}
-    ),
-    html.Div(
         style={'display': 'flex', 'justify-content': 'space-between', 'margin': '30px 250px 0'},
         children=[
             html.Button('Movies', id='movies-button', style=buttonStyle),
@@ -102,7 +133,7 @@ main_layout = html.Div([
         ]),
     html.Div(id='logout-output'),
     html.H1('work in progress')
-], style={'backgroundColor': '#F5E8B7'})
+])
 
 
 # title_data: title_id, title, rating, release_year

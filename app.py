@@ -14,10 +14,11 @@ from callbacks.main_callbacks import *
 
 app.config.suppress_callback_exceptions = True
 
-app.layout = html.Div([
-    dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
-])
+app.layout = html.Div(
+    children=[dcc.Location(id='url', refresh=False),
+    html.Div(id='page-content')],
+    style={'height': '100vh', 'width': '100wh', 'backgroundColor': '#22092C'}
+)
 
 
 # Run the app
