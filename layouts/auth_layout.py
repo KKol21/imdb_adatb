@@ -12,7 +12,6 @@ login_layout = html.Div(
                         html.Label('Username: ', style={'fontSize': '18px'}),
                         dcc.Input(id='username-input',
                                   type='text',
-                                  placeholder='Enter your username',
                                   style={'marginBottom': '10px'})
                     ]
                 ),
@@ -20,7 +19,6 @@ login_layout = html.Div(
                     html.Label('Password: ', style={'fontSize': '18px'}),
                     dcc.Input(id='password-input',
                               type='password',
-                              placeholder='Enter your password',
                               style={'marginBottom': '20px'})
                 ]),
                 html.Div(
@@ -29,29 +27,39 @@ login_layout = html.Div(
                                        'padding': '10px 20px',
                                        'width': '100px',
                                        'align': 'center'})),
-                html.Div(id='login-output', style={'marginTop': '20px'})
+                html.Div(id='login-output',
+                         style={'marginTop': '20px'})
             ]
         ),
-        dcc.Link("/register", href='register', style={'fontSize': '16px'}),
-        html.H2('IMDB Data Analytic Thing! WOOHOO!', style={'marginTop': '40px', 'color': '#333'})
+        dcc.Link("/register", href='register',
+                 style={'fontSize': '16px'}),
+        html.H2('IMDB Data Analytic Thing! WOOHOO!',
+                style={'marginTop': '40px',
+                       'color': '#333'})
     ]
 )
+
 register_layout = html.Div(
-    style={'backgroundColor': '#f2f2f2', 'padding': '20px', 'textAlign': 'center'},
+    style={'backgroundColor': '#f2f2f2',
+           'padding': '20px',
+           'textAlign': 'center'},
     children=[
         html.Div([
             html.Label('Username: ', style={'fontSize': '18px'}),
-            dcc.Input(id='username-input', type='text', placeholder='Enter your username',
+            dcc.Input(id='username-input',
+                      type='text',
                       style={'marginBottom': '10px'})
         ]),
         html.Div([
             html.Label('Password: ', style={'fontSize': '18px'}),
-            dcc.Input(id='password-input', type='password', placeholder='Enter your password',
+            dcc.Input(id='password-input',
+                      type='password',
                       style={'marginBottom': '10px'})
         ]),
         html.Div([
             html.Label('Password_2: ', style={'fontSize': '18px'}),
-            dcc.Input(id='password_2-input', type='password', placeholder='Enter your password again',
+            dcc.Input(id='password_2-input',
+                      type='password',
                       style={'marginBottom': '10px'})
         ]),
         html.Div([

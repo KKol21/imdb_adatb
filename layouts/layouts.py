@@ -1,12 +1,14 @@
-from dash import html
+from dash import html, dcc
 
 from colors import *
+
+basic_header = None
 
 
 def get_header_layout(username=None):
     if username is not None:
         return get_logged_header(username)
-    return None
+    return basic_header
 
 
 def get_logged_header(username):
@@ -27,18 +29,14 @@ def get_logged_header(username):
                                'border': 'none',
                                'borderRadius': '10px'}
                         )],
-                 style={'display': 'flex',
-                        'flexDirection': 'column'})
-        ],
+            style={'display': 'flex',
+                   'flexDirection': 'column'})
+    ],
         style={'backgroundColor': purple,
                "height": "60px",
                'display': 'flex',
                'justify-content': 'space-between'}
     )
-
-
-def get_basic_header():
-    pass
 
 
 # Layout for the login page
@@ -64,6 +62,8 @@ buttonStyle = {
 }
 
 main_layout = html.Div([
+    dcc.ConfirmDialog(id="confirm-logout",
+                      message="Are you sure you want to logout?"),
     html.Div(
         style={'display': 'flex', 'justify-content': 'space-between', 'margin': '30px 250px 0'},
         children=[

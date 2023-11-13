@@ -1,4 +1,4 @@
-from dao.titlesDao import TitlesDAO
+from dao.titlesDAO import TitlesDAO
 
 
 class MoviesDAO(TitlesDAO):

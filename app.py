@@ -1,10 +1,8 @@
-from dash import Dash, html, dcc
-from flask_session import Session
 from datetime import timedelta
 
+from dash import Dash, html, dcc
+from flask_session import Session
 
-from callbacks.auth_callbacks import *
-from callbacks.main_callbacks import *
 
 app = Dash(__name__)
 # Flask-Session setup
@@ -16,11 +14,7 @@ Session(app.server)
 app.config.suppress_callback_exceptions = True
 
 app.layout = html.Div(
-    children=[dcc.Location(id='url', refresh=False),
+    children=[dcc.Location(id='url', refresh=True),
               html.Div(id='page-content')],
     style={'color': '#000000'}
 )
-
-# Run the app
-if __name__ == '__main__':
-    app.run_server(debug=True)

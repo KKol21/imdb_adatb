@@ -1,5 +1,5 @@
 import random
-from dao import movieDao, seriesDao
+from dao import movieDAO, seriesDAO
 from db.db_connector import db_conn
 
 
@@ -64,7 +64,7 @@ def generate_creative_entries():
         rating = round(random.uniform(3, 5), 2)
         genre = random.choice(genres)
         release_year = random.randint(1980, 2023)
-        n_ratings = random.randint(50, 500)
+        n_ratings = random.randint(50, 2000)
         playtime = random.randint(90, 180)
         entries.append(
             {"title": title, "rating": rating, "genre": genre, "release_year": release_year, "n_ratings": n_ratings,
@@ -88,8 +88,8 @@ def generate_creative_entries():
 
 
 # Assuming you have an instance of your class called imdb_instance
-movieDao = movieDao.MoviesDAO(db_conn=db_conn)
-seriesDao = seriesDao.SeriesDAO(db_conn=db_conn)
+movieDao = movieDAO.MoviesDAO(db_conn=db_conn)
+seriesDao = seriesDAO.SeriesDAO(db_conn=db_conn)
 
 
 # Generate and insert creative movie and series entries
