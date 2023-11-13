@@ -1,0 +1,5 @@
+purple = '#22092C'
+dark_red = '#872341'
+light_red = '#BE3144'
+orange = '#F05941'
+white = '#F8F8F4'

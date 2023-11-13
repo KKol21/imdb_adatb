@@ -10,6 +10,11 @@ class TitlesDAO:
         result = self.cursor.fetchone()
         return result[0]
 
+    def get_title_by_id(self, title_id):
+        query = "SELECT * FROM titles WHERE title_id = %s"
+        self.cursor.execute(query, (title_id))
+        return [0]
+
     def get_titles(self):
         query = "SELECT * FROM titles"
         self.cursor.execute(query)

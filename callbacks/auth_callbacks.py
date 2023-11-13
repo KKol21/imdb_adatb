@@ -1,19 +1,18 @@
-from layouts import *
-from app import app
-from db.db_connector import db_conn
-from dao import userDao
+from dash import Input, Output, State, no_update, callback
+from dash import html, dcc
 from flask import session
 
+from dao import userDao
+from db.db_connector import db_conn
 
 userDao = userDao.UserDAO(db_conn=db_conn)
 
 
-
 # Callback to handle the login logic
-@app.callback(Output('login-output', 'children'),
-              [Input('login-button', 'n_clicks')],
-              [State('username-input', 'value'),
-               State('password-input', 'value')])
+@callback(Output('login-output', 'children'),
+          [Input('login-button', 'n_clicks')],
+          [State('username-input', 'value'),
+           State('password-input', 'value')])
 def login(n_clicks, username, password):
     if n_clicks is not None:
         users = userDao.get_users()
@@ -29,12 +28,12 @@ def login(n_clicks, username, password):
             return html.Div('Invalid username or password. Please try again.')
 
 
-@app.callback(Output('register-output', 'children'),
-              [Input('register-button', 'n_clicks')],
-              [State('name-input', 'value'),
-               State('username-input', 'value'),
-               State('password-input', 'value'),
-               State('password_2-input', 'value')])
+@callback(Output('register-output', 'children'),
+          [Input('register-button', 'n_clicks')],
+          [State('name-input', 'value'),
+           State('username-input', 'value'),
+           State('password-input', 'value'),
+           State('password_2-input', 'value')])
 def register(n_clicks, name, username, password, password_2):
     if n_clicks is not None:
         if None in [name, username, password, password_2]:
@@ -53,8 +52,8 @@ def register(n_clicks, name, username, password, password_2):
 
 
 # Callback to handle logout
-@app.callback(Output("logout-output", "children"),
-              [Input("logout-button", "n_clicks")])
+@callback(Output("logout-output", "children"),
+          [Input("logout-button", "n_clicks")])
 def logout(n_clicks):
     if n_clicks:
         session.pop('logged_in_user', None)
@@ -67,9 +66,9 @@ url_output = Output('url', 'pathname', allow_duplicate=True)
 
 
 # Callback to redirect to the home page after logout
-@app.callback(Output('url', 'pathname', allow_duplicate=True),
-              [Input('redirect-to-login', 'n_intervals')],
-              prevent_initial_call=True)
+@callback(Output('url', 'pathname', allow_duplicate=True),
+          [Input('redirect-to-login', 'n_intervals')],
+          prevent_initial_call=True)
 def redirect_to_login(n_intervals_to_front):
     if n_intervals_to_front > 0:
         return '/login'
@@ -77,9 +76,9 @@ def redirect_to_login(n_intervals_to_front):
         return no_update
 
 
-@app.callback(Output('url', 'pathname', allow_duplicate=True),
-              [Input('redirect-to-main', 'n_intervals')],
-              prevent_initial_call=True)
+@callback(Output('url', 'pathname', allow_duplicate=True),
+          [Input('redirect-to-main', 'n_intervals')],
+          prevent_initial_call=True)
 def redirect_to_main(n_intervals_to_main):
     if n_intervals_to_main > 0:
         return '/main'
