@@ -11,13 +11,15 @@ Session(app.server)
 
 from callbacks.auth_callbacks import *
 from callbacks.main_callbacks import *
+from layouts import purple
+
 
 app.config.suppress_callback_exceptions = True
 
 app.layout = html.Div(
     children=[dcc.Location(id='url', refresh=False),
     html.Div(id='page-content')],
-    style={'height': '100vh', 'width': '100wh', 'backgroundColor': '#22092C'}
+    style={'color': '#000000'}
 )
 
 
