@@ -9,8 +9,8 @@ app.server.config['SECRET_KEY'] = 'your_secret_key'
 app.server.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=10)
 Session(app.server)
 
-from create_tables import create_db
-from auth_callbacks import *
+from callbacks.auth_callbacks import *
+from callbacks.main_callbacks import *
 
 app.config.suppress_callback_exceptions = True
 
@@ -22,5 +22,4 @@ app.layout = html.Div([
 
 # Run the app
 if __name__ == '__main__':
-    create_db()
     app.run_server(debug=True)

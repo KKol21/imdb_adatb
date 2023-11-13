@@ -1,7 +1,6 @@
 from mysql.connector import connect
 
 
-# Function to create a database connection
 def create_connection():
     connection = connect(
         user="root"
@@ -9,7 +8,6 @@ def create_connection():
     return connection
 
 
-# Function to create the database if it doesn't exist
 def create_database(connection, database_name):
     cursor = connection.cursor()
     cursor.execute(f"DROP DATABASE IF EXISTS {database_name}")
@@ -17,7 +15,6 @@ def create_database(connection, database_name):
     print(f"Database '{database_name}' created successfully.")
 
 
-# Function to create tables
 def create_tables(connection):
     cursor = connection.cursor()
 
@@ -37,6 +34,8 @@ def create_tables(connection):
             title_id INT AUTO_INCREMENT PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             rating FLOAT,
+            n_ratings INT,
+            release_year INT,
             genre VARCHAR(255)
         );
         """
@@ -60,7 +59,6 @@ def create_tables(connection):
     CREATE TABLE IF NOT EXISTS Movies (
         title_id INT PRIMARY KEY,
         playtime INT,
-        release_year INT,
         FOREIGN KEY (title_id) REFERENCES Titles(title_id)
     );
     """
@@ -102,7 +100,8 @@ def create_tables(connection):
 
     print("Tables created successfully.")
 
-def create_db():
+
+def create_db_with_tables():
 
     # Create a connection to the MySQL server
     connection = create_connection()

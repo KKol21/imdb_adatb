@@ -1,26 +1,12 @@
-from dash import *
 from layouts import *
-from main import app
-from db_connector import db_conn
-from dao import userDao, actorDao, movieDao, seriesDao, ratingsDao
+from app import app
+from db.db_connector import db_conn
+from dao import userDao
 from flask import session
 
 
 userDao = userDao.UserDAO(db_conn=db_conn)
 
-
-# Callback to update the page content based on the URL
-@app.callback(Output('page-content', 'children'),
-              [Input('url', 'pathname')])
-def display_page(pathname):
-    if pathname == '/main' and 'logged_in_user' in session:
-        return html.Div(f'Logged in as {session["logged_in_user"]}',
-                        style={'display': 'flex', 'justify-content': 'right'}),\
-               main_layout
-    elif pathname == '/register':
-        return register_layout
-    else:
-        return login_layout
 
 
 # Callback to handle the login logic
