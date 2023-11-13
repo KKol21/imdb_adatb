@@ -10,7 +10,7 @@ app.server.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=10)
 Session(app.server)
 
 from create_tables import create_db
-from callbacks import *
+from auth_callbacks import *
 
 app.config.suppress_callback_exceptions = True
 
