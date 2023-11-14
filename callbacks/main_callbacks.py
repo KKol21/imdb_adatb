@@ -1,4 +1,4 @@
-from dash import Input, Output
+from dash import Input, Output, State
 from flask import session
 
 from dao import actorDAO, movieDAO, seriesDAO, ratingsDAO, titlesDAO
@@ -29,6 +29,36 @@ def add_main_callbacks(app):
         if '/title' in pathname:
             layout = get_title_layout_from_path(pathname)
         return get_header_layout(session['logged_in_user']), layout
+
+    # Callback function
+    @app.callback(
+        Output("modal-titles", "is_open"),
+        [Input("add-movies-button", "n_clicks"),
+         Input("close-modal", "n_clicks")],
+        State("modal-titles", "is_open")
+    )
+    def add_movie_modal(n_1, n_2, is_open):
+        if n_1 or n_2:
+            return not is_open
+        return is_open
+
+
+    @app.callback(
+        Output("add-movies-confirm", "children"),
+        [Input("add-movies-button-modal", "n_clicks")],
+        [State(f"movies-{col}", "value") for col in
+         ["title", "rating", "n_ratings", "release_year", "genre", "playtime"]]
+    )
+    def add_movie(n_clicks, title, rating, n_ratings, release_year, genre, playtime):
+        if n_clicks is not None:
+            if None in [title, rating, n_ratings, release_year, genre, playtime]:
+                return "Each field must be filled out!"
+            movies = movie_dao.get_movies()
+            if (title, rating, release_year) in zip(movies[0:2], movies[4]):
+                return "This movie already exists!"
+            else:
+                movie_dao.create_movie(title, rating, genre, release_year, n_ratings, playtime)
+                return "Movie has been created!"
 
 
 def get_titles_layout_from_path(pathname):

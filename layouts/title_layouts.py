@@ -1,5 +1,5 @@
 from dash import html, dcc
-
+import dash_bootstrap_components as dbc
 from colors import light_red, white
 
 
@@ -10,22 +10,52 @@ def get_titles_layout(titles_data, name):
         [html.Div(name.capitalize(),
                   style={'color': light_red,
                          'textAlign': 'center',
-                         'fontSize': '100px'})] +
-        [html.Div(
-            [html.Div(
-                dcc.Link(f"{title[1]}({title[4]})",
-                         href=f'/titles/{title[0]}'),
-                style={'backgroundColor': white,
-                       'margin': '10px 50px',
-                       'borderRadius': '10px'})
-                for title in titles_data],
-            style={'display': 'flex',
-                   'flexDirection': 'column',
-                   'height': '150px',
-                   'fontSize': '50px'}
-        )
-        ]
+                         'fontSize': '100px'}),
+         html.Button(f"Add {name}", id=f"add-{name}-button"),
+         dbc.Modal(
+             id=f"modal-titles",
+             children=[
+                 dbc.ModalTitle(f"Add {name}"),
+                 dbc.ModalBody([
+                     add_movie_layout,
+                     html.Div(id=f"add-{name}-output")
+                 ], style={"height": "30vh"}),
+                 dbc.ModalFooter([html.Button(f"Add {name}", id=f"add-{name}-button-modal"),
+                                 html.Button(f"Close", id="close-modal")])
+             ],
+             is_open=False,
+             style={"centered": True,
+                    "fade": True}
+         ),
+         html.Div(
+             [html.Div(
+                 dcc.Link(f"{title[1]}({title[4]})",
+                          href=f'/titles/{title[0]}'),
+                 style={'backgroundColor': white,
+                        'margin': '10px 50px',
+                        'borderRadius': '10px'})
+                 for title in titles_data],
+             style={'display': 'flex',
+                    'flexDirection': 'column',
+                    'height': '150px',
+                    'fontSize': '50px'}
+         )
+         ]
     )
+
+
+add_movie_layout = html.Div(
+    style={'display': 'flex', 'flexDirection': 'column'},
+    children=
+    [html.Div(
+        children=[
+            html.Label(col.capitalize(), style={'fontSize': '18px'}),
+            dcc.Input(id=f'movies-{col}',
+                      type='text',
+                      style={'marginBottom': '10px'})
+        ]
+    ) for col in ["title", "rating", "n_ratings", "release_year", "genre", "playtime"]]
+)
 
 
 def get_single_title_layout(title_data, name):
@@ -70,4 +100,3 @@ def get_series_layout(series_data):
             ]),
         html.Button('Edit title details', id=f'Edit-title')
     ])
-

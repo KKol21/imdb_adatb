@@ -1,10 +1,11 @@
 from datetime import timedelta
 
 from dash import Dash, html, dcc
+import dash_bootstrap_components as dbc
 from flask_session import Session
 
 
-app = Dash(__name__)
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 # Flask-Session setup
 app.server.config['SESSION_TYPE'] = 'filesystem'
 app.server.config['SECRET_KEY'] = 'your_secret_key'
