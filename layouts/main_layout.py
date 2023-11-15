@@ -18,7 +18,7 @@ buttonStyle = {
 
 main_layout = html.Div([
     html.Div(
-        style={'display': 'flex', 'justify-content': 'space-between', 'margin': '30px 250px 0'},
+        style={'display': 'flex', 'justifyContent': 'space-between', 'margin': '30px 250px 0'},
         children=[
             html.Button('Movies', id='movies-button', style=buttonStyle),
             html.Button('Series', id='series-button', style=buttonStyle),

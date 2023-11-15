@@ -3,6 +3,10 @@ class TitlesDAO:
         self.db_conn = db_conn
         self.cursor = db_conn.cursor()
 
+    def get_title_details(self, title, rating, release_year):
+        title_id = self.get_title_id(title, release_year, rating)
+        return self.get_title_by_id_full(title_id)
+
     def get_title_id(self, title, release_year, rating):
         query = "SELECT title_id FROM titles WHERE title LIKE %s AND release_year = %s AND rating LIKE %s"
         values = (title, release_year, rating)

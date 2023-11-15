@@ -11,10 +11,6 @@ ratings_dao = ratingsDAO.RatingsDAO(db_conn=conn)
 titles_dao = titlesDAO.TitlesDAO(db_conn=conn)
 
 
-def no_update_or_path(curr_path, target_path):
-    return no_update if curr_path == target_path else target_path
-
-
 def add_main_callbacks(app):
     from layouts.auth_layout import register_layout, login_layout
     from layouts.main_layout import main_layout
@@ -25,6 +21,10 @@ def add_main_callbacks(app):
                    Output('url', 'pathname')],
                   [Input('url', 'pathname')])
     def display_page(pathname):
+        # Check if the URL has changed
+        if "prev_path" in session and session["prev_path"] == pathname:
+            return no_update
+        session["prev_path"] = pathname
         if 'logged_in_user' not in session:
             if pathname == '/register':
                 return register_layout, pathname
@@ -35,35 +35,6 @@ def add_main_callbacks(app):
         if '/title' in pathname:
             return [header, get_title_layout_from_path(pathname)], pathname
         return [header, main_layout], '/main'
-
-    # Callback function
-    @app.callback(
-        Output("modal-titles", "is_open"),
-        [Input("add-movies-button", "n_clicks"),
-         Input("close-modal", "n_clicks")],
-        State("modal-titles", "is_open")
-    )
-    def add_movie_modal(n_1, n_2, is_open):
-        if n_1 or n_2:
-            return not is_open
-        return is_open
-
-    @app.callback(
-        Output("add-movies-confirm", "children"),
-        [Input("add-movies-button-modal", "n_clicks")],
-        [State(f"movies-{col}", "value") for col in
-         ["title", "rating", "n_ratings", "release_year", "genre", "playtime"]]
-    )
-    def add_movie(n_clicks, title, rating, n_ratings, release_year, genre, playtime):
-        if n_clicks is not None:
-            if None in [title, rating, n_ratings, release_year, genre, playtime]:
-                return "Each field must be filled out!"
-            movies = movie_dao.get_movies()
-            if (title, rating, release_year) in zip(movies[0:2], movies[4]):
-                return "This movie already exists!"
-            else:
-                movie_dao.create_movie(title, rating, genre, release_year, n_ratings, playtime)
-                return "Movie has been created!"
 
 
 def get_titles_layout_from_path(pathname):

@@ -1,5 +1,5 @@
 from dash import html, dcc
-import dash_bootstrap_components as dbc
+
 from colors import light_red, white
 
 
@@ -11,19 +11,12 @@ def get_titles_layout(titles_data, name):
                   style={'color': light_red,
                          'textAlign': 'center',
                          'fontSize': '100px'}),
-         html.Button(f"Add {name}", id=f"add-{name}-button"),
-         dbc.Modal(
-             id="modal",
+         html.Div(
              children=[
-                 dbc.ModalTitle(f"Add {name}"),
-                 dbc.ModalBody([
-                     add_movie_layout,
-                     html.Div(id=f"add-{name}-output")
-                 ], style={"height": "30vh"}),
-                 dbc.ModalFooter([html.Button(f"Add {name}", id=f"add-{name}-button-modal"),
-                                 html.Button(f"Close", id="close-modal")])
-             ],
-             is_open=False
+                 add_movie_layout,
+                 html.Button(f"Add {name}", id=f"add-{name}-button"),
+                 html.Div(id=f"add-{name}-output")
+             ]
          ),
          html.Div(
              [html.Div(
@@ -43,16 +36,32 @@ def get_titles_layout(titles_data, name):
 
 
 add_movie_layout = html.Div(
-    style={'display': 'flex', 'flexDirection': 'column'},
+    style={'display': 'flex', 'justifyContent': 'space-between'},
     children=
-    [html.Div(
-        children=[
-            html.Label(col, style={'fontSize': '18px'}),
-            dcc.Input(id=f'movies-{col}',
+    [html.Div([html.Label("Title: "),
+               dcc.Input(id="movies-title-input",
+                         type='text'),
+            html.Label("Rating: ", style={'fontSize': '18px'}),
+            dcc.Input(id=f'movies-rating-input',
+                      type='number',
+                      style={'margin': '10px 10px'}),
+            html.Label("Number of ratings: ", style={'fontSize': '18px'}),
+            dcc.Input(id=f'movies-n_ratings-input',
+                      type='number',
+                      style={'margin': '10px 10px'}),
+            html.Label("Release year: ", style={'fontSize': '18px'}),
+            dcc.Input(id=f'movies-release_year-input',
+                      type='number',
+                      style={'margin': '10px 10px'}),
+            html.Label("Genre: ", style={'fontSize': '18px'}),
+            dcc.Input(id=f'movies-genre-input',
                       type='text',
-                      style={'marginBottom': '10px'})
-        ]
-    ) for col in ["title", "rating", "n_ratings", "release_year", "genre", "playtime"]]
+                      style={'margin': '10px 10px'}),
+            html.Label("Playtime (min): ", style={'fontSize': '18px'}),
+            dcc.Input(id=f'movies-playtime-input',
+                      type='number',
+                      style={'margin': '10px 10px'})],
+              style={'margin': '10px 10px'})]
 )
 
 

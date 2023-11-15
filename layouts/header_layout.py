@@ -38,5 +38,5 @@ def get_logged_header(username):
         style={'backgroundColor': purple,
                "height": "60px",
                'display': 'flex',
-               'justify-content': 'space-between'}
+               'justifyContent': 'space-between'}
     )
