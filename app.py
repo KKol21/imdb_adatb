@@ -15,7 +15,8 @@ Session(app.server)
 app.config.suppress_callback_exceptions = True
 
 app.layout = html.Div(
-    children=[dcc.Location(id='url', refresh=True),
+    children=[dcc.Location(id='url', refresh=False),
+              html.Div(id='url-callback'),
               html.Div(id='page-content')],
     style={'color': '#000000'}
 )

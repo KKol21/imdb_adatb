@@ -2,8 +2,6 @@ from dash import html
 
 from colors import *
 
-basic_header = None
-
 
 buttonStyle = {
     'fontSize': '50px',

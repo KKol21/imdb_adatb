@@ -37,7 +37,7 @@ class TitlesDAO:
                 """
         self.cursor.execute(query, (title_id,))
         result = self.cursor.fetchone()
-        return result
+        return [val for val in result if val is not None]
 
     def get_titles(self):
         query = "SELECT * FROM titles"

@@ -5,6 +5,13 @@ def add_redirect_callbacks(app):
     url_out = Output('url', 'pathname', allow_duplicate=True)
 
     @app.callback(url_out,
+                  [Input("imdb-button", "n_clicks")],
+                  prevent_initial_call=True)
+    def logo_redirect(n_clicks):
+        if n_clicks is not None:
+            return "/main"
+
+    @app.callback(url_out,
                   [Input("confirm-logout", "submit_n_clicks")],
                   prevent_initial_call=True)
     def logout_redirect(submit_n_clicks):

@@ -1,7 +1,8 @@
 from dash import html, dcc
 
 from colors import light_red, purple
-from layouts.main_layout import basic_header
+
+basic_header = None
 
 
 def get_header_layout(username=None):
@@ -14,12 +15,13 @@ def get_logged_header(username):
     return html.Div([
         dcc.ConfirmDialog(id="confirm-logout",
                           message="Are you sure you want to logout?"),
-        html.Div('IMDB',
-                 style={'backgroundColor': light_red,
-                        'fontSize': '50px',
-                        'margin': '4px',
-                        'borderRadius': '5px'}
-                 ),
+        html.Button('IMDB',
+                    style={'backgroundColor': light_red,
+                           'fontSize': '50px',
+                           'margin': '4px',
+                           'borderRadius': '5px'},
+                    id="imdb-button"
+                    ),
         html.Div([
             html.Div(f'Logged in as {username}',
                      style={'fontSize': '20px'}),

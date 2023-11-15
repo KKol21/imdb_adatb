@@ -1,3 +1,3 @@
 from mysql import connector
 
-db_conn = connector.connect(user="root", database="imdb")
+conn = connector.connect(user="root", database="imdb", connect_timeout=10000)

@@ -1,14 +1,18 @@
-from dash import Input, Output, State
+from dash import Input, Output, State, no_update
 from flask import session
 
 from dao import actorDAO, movieDAO, seriesDAO, ratingsDAO, titlesDAO
-from db.db_connector import db_conn
+from db.db_connector import conn
 
-actor_dao = actorDAO.ActorDAO(db_conn=db_conn)
-movie_dao = movieDAO.MoviesDAO(db_conn=db_conn)
-series_dao = seriesDAO.SeriesDAO(db_conn=db_conn)
-ratings_dao = ratingsDAO.RatingsDAO(db_conn=db_conn)
-titles_dao = titlesDAO.TitlesDAO(db_conn=db_conn)
+actor_dao = actorDAO.ActorDAO(db_conn=conn)
+movie_dao = movieDAO.MoviesDAO(db_conn=conn)
+series_dao = seriesDAO.SeriesDAO(db_conn=conn)
+ratings_dao = ratingsDAO.RatingsDAO(db_conn=conn)
+titles_dao = titlesDAO.TitlesDAO(db_conn=conn)
+
+
+def no_update_or_path(curr_path, target_path):
+    return no_update if curr_path == target_path else target_path
 
 
 def add_main_callbacks(app):
@@ -16,19 +20,21 @@ def add_main_callbacks(app):
     from layouts.main_layout import main_layout
     from layouts.header_layout import get_header_layout
     # Callback to update the page content based on the URL
-    @app.callback(Output('page-content', 'children'),
+
+    @app.callback([Output('page-content', 'children'),
+                   Output('url', 'pathname')],
                   [Input('url', 'pathname')])
     def display_page(pathname):
         if 'logged_in_user' not in session:
             if pathname == '/register':
-                return register_layout
-            return login_layout
-        layout = main_layout
+                return register_layout, pathname
+            return login_layout, '/login'
+        header = get_header_layout(session['logged_in_user'])
         if pathname in ['/movies', '/series']:
-            layout = get_titles_layout_from_path(pathname)
+            return [header, get_titles_layout_from_path(pathname)], pathname
         if '/title' in pathname:
-            layout = get_title_layout_from_path(pathname)
-        return get_header_layout(session['logged_in_user']), layout
+            return [header, get_title_layout_from_path(pathname)], pathname
+        return [header, main_layout], '/main'
 
     # Callback function
     @app.callback(

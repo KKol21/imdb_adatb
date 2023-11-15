@@ -1,6 +1,6 @@
 import random
 from dao import movieDAO, seriesDAO
-from db.db_connector import db_conn
+from db.db_connector import conn
 
 
 # Assuming you have a class with the methods create_title, create_series, create_movie
@@ -88,8 +88,8 @@ def generate_creative_entries():
 
 
 # Assuming you have an instance of your class called imdb_instance
-movieDao = movieDAO.MoviesDAO(db_conn=db_conn)
-seriesDao = seriesDAO.SeriesDAO(db_conn=db_conn)
+movieDao = movieDAO.MoviesDAO(db_conn=conn)
+seriesDao = seriesDAO.SeriesDAO(db_conn=conn)
 
 
 # Generate and insert creative movie and series entries

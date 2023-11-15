@@ -3,9 +3,9 @@ from dash import html, dcc
 from flask import session
 
 from dao.userDAO import UserDAO
-from db.db_connector import db_conn
+from db.db_connector import conn
 
-userDao = UserDAO(db_conn=db_conn)
+userDao = UserDAO(db_conn=conn)
 
 
 def add_auth_callbacks(app):
@@ -39,7 +39,7 @@ def add_auth_callbacks(app):
             if None in [name, username, password, password_2]:
                 return html.Div('Fill out the empty fields!')
             users = userDao.get_users()
-            if users and username in users[0]:
+            if users and username in [user[0] for user in users]:
                 return html.Div('Username taken!')
             if password != password_2:
                 return html.Div('The passwords do not match!')
