@@ -13,7 +13,7 @@ def get_titles_layout(titles_data, name):
                          'fontSize': '100px'}),
          html.Button(f"Add {name}", id=f"add-{name}-button"),
          dbc.Modal(
-             id=f"modal-titles",
+             id="modal",
              children=[
                  dbc.ModalTitle(f"Add {name}"),
                  dbc.ModalBody([
@@ -23,9 +23,7 @@ def get_titles_layout(titles_data, name):
                  dbc.ModalFooter([html.Button(f"Add {name}", id=f"add-{name}-button-modal"),
                                  html.Button(f"Close", id="close-modal")])
              ],
-             is_open=False,
-             style={"centered": True,
-                    "fade": True}
+             is_open=False
          ),
          html.Div(
              [html.Div(
@@ -49,7 +47,7 @@ add_movie_layout = html.Div(
     children=
     [html.Div(
         children=[
-            html.Label(col.capitalize(), style={'fontSize': '18px'}),
+            html.Label(col, style={'fontSize': '18px'}),
             dcc.Input(id=f'movies-{col}',
                       type='text',
                       style={'marginBottom': '10px'})
@@ -73,12 +71,13 @@ def get_movie_layout(title_data):
                    "flexDirection": "column",
                    "fontSize": "20px"},
             children=[
-                html.Div(f"{title} ({release_year})",
+                html.Div([f"{title} ({release_year})"],
                          style={"fontSize": "50px"}),
-                f"Genre: {genre}",
-                f"Rating: {rating}/5 ({n_ratings} ratings)",
-                f"Playtime: {playtime}"
-            ]),
+                html.Div([f"Genre: {genre}"]),
+                html.Div([f"Rating: {rating}/5 ({n_ratings} ratings)"]),
+                html.Div([f"Playtime: {playtime} minutes"])
+            ]
+        ),
         html.Button('Edit title details', id=f'Edit-title')
     ])
 
@@ -92,11 +91,14 @@ def get_series_layout(series_data):
                    "flexDirection": "column",
                    "fontSize": "20px"},
             children=[
-                html.Div(f"{title} ({release_year})",
-                         style={"fontSize": "50px"}),
-                f"Genre: {genre}",
-                f"Rating: {rating}/5 ({n_ratings} ratings)",
-                f"{n_seasons} seasons, {n_episodes} episodes"
-            ]),
-        html.Button('Edit title details', id=f'Edit-title')
+                html.Div([
+                    html.Div(f"{title} ({release_year})",
+                             style={"fontSize": "50px"}),
+                    html.Div(f"Genre: {genre}"),
+                    html.Div(f"Rating: {rating}/5 ({n_ratings} ratings)"),
+                    html.Div(f"{n_seasons} seasons, {n_episodes} episodes")
+                ])
+            ]
+        ),
+        html.Button('Edit title details', id=f'edit-title-button')
     ])

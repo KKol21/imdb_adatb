@@ -3,9 +3,6 @@ from flask import session
 
 from dao import actorDAO, movieDAO, seriesDAO, ratingsDAO, titlesDAO
 from db.db_connector import db_conn
-from layouts.auth_layout import register_layout, login_layout
-from layouts.layouts import main_layout, get_header_layout
-from layouts.title_layouts import get_titles_layout, get_single_title_layout
 
 actor_dao = actorDAO.ActorDAO(db_conn=db_conn)
 movie_dao = movieDAO.MoviesDAO(db_conn=db_conn)
@@ -15,6 +12,9 @@ titles_dao = titlesDAO.TitlesDAO(db_conn=db_conn)
 
 
 def add_main_callbacks(app):
+    from layouts.auth_layout import register_layout, login_layout
+    from layouts.main_layout import main_layout
+    from layouts.header_layout import get_header_layout
     # Callback to update the page content based on the URL
     @app.callback(Output('page-content', 'children'),
                   [Input('url', 'pathname')])
@@ -42,7 +42,6 @@ def add_main_callbacks(app):
             return not is_open
         return is_open
 
-
     @app.callback(
         Output("add-movies-confirm", "children"),
         [Input("add-movies-button-modal", "n_clicks")],
@@ -62,6 +61,7 @@ def add_main_callbacks(app):
 
 
 def get_titles_layout_from_path(pathname):
+    from layouts.title_layouts import get_titles_layout
     titles_data = movie_dao.get_movies() if pathname == '/movies' else series_dao.get_series()
     layout = get_titles_layout(titles_data=titles_data,
                                name=pathname.split('/')[1])
@@ -69,6 +69,7 @@ def get_titles_layout_from_path(pathname):
 
 
 def get_title_layout_from_path(pathname):
+    from layouts.title_layouts import get_single_title_layout
     title_id = pathname.split('/')[2]
     title_data = titles_dao.get_title_by_id_full(title_id)
     name = "movie" if len(title_data) == 7 else "series"

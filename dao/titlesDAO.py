@@ -21,8 +21,11 @@ class TitlesDAO:
                 titles.*,
                 CASE
                     WHEN movies.title_id IS NOT NULL THEN movies.playtime
-                    WHEN series.title_id IS NOT NULL THEN CONCAT(series.n_seasons, ', ', series.n_episodes)
-                END AS additional_value
+                    WHEN series.title_id IS NOT NULL THEN series.n_seasons 
+                END AS additional_col,
+                CASE 
+                    WHEN series.title_id IS NOT NULL THEN series.n_episodes
+                END AS n_episodes
             FROM
                 titles
             LEFT JOIN
@@ -30,7 +33,7 @@ class TitlesDAO:
             LEFT JOIN
                 series ON titles.title_id = series.title_id
             WHERE
-                titles.title_id = %s;
+                titles.title_id = %s
                 """
         self.cursor.execute(query, (title_id,))
         result = self.cursor.fetchone()

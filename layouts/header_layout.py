@@ -1,8 +1,7 @@
 from dash import html, dcc
 
-from colors import *
-
-basic_header = None
+from colors import light_red, purple
+from layouts.main_layout import basic_header
 
 
 def get_header_layout(username=None):
@@ -13,6 +12,8 @@ def get_header_layout(username=None):
 
 def get_logged_header(username):
     return html.Div([
+        dcc.ConfirmDialog(id="confirm-logout",
+                          message="Are you sure you want to logout?"),
         html.Div('IMDB',
                  style={'backgroundColor': light_red,
                         'fontSize': '50px',
@@ -37,40 +38,3 @@ def get_logged_header(username):
                'display': 'flex',
                'justify-content': 'space-between'}
     )
-
-
-# Layout for the login page
-
-temp = html.Div([
-    html.Button('Add movie', id='add-movie-button'),
-    html.Button('Edit movie', id='edit-movie-button'),
-    html.Button('Add series', id='add-series-button'),
-    html.Button('Edit series', id='edit-series-button')
-])
-
-buttonStyle = {
-    'fontSize': '50px',
-    'padding': '10px 20px',
-    'backgroundColor': white,
-    'border': 'none',
-    'borderRadius': '20px',
-    'cursor': 'pointer',
-    'transition': 'background-color 0.3s',
-    'height': '70px',
-    'width': '250px',
-    'textAlign': 'center'
-}
-
-main_layout = html.Div([
-    dcc.ConfirmDialog(id="confirm-logout",
-                      message="Are you sure you want to logout?"),
-    html.Div(
-        style={'display': 'flex', 'justify-content': 'space-between', 'margin': '30px 250px 0'},
-        children=[
-            html.Button('Movies', id='movies-button', style=buttonStyle),
-            html.Button('Series', id='series-button', style=buttonStyle),
-            html.Button('Actors', id='actor-button', style=buttonStyle)
-        ]),
-    html.Div(id='logout-output'),
-    html.H1('work in progress')
-])
