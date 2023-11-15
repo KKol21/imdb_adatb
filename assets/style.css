@@ -1,0 +1,74 @@
+.header {
+    height: 70px;
+    display: flex;
+    background-color: #252525;
+    position: relative;
+}
+
+#imdb-button {
+    background-color: #fff709;
+    font-size: 55px;
+    border: none;
+    font-weight: bold;
+    text-align-all: center;
+ }
+
+.msa-button {
+    background-color: #252525;
+    border: none;
+    color: #FFFFFF;
+}
+
+.msa-button:hover {
+    background-color: #3f3f3f;
+}
+
+#logout-corner {
+    position: absolute;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.button {
+    background-color: #fff709;
+    border: none;
+    border-radius: 5px
+}
+
+.button:hover {
+    background-color: #FFFFFF;
+}
+
+#title {
+    background-color: #252525;
+    border-radius: 10px;
+    margin: 10px;
+    height: 60px
+}
+
+#title:hover {
+    background-color: #3f3f3f;
+}
+
+#titles-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.link {
+    text-decoration: none;
+    font-size: 40px;
+    color: #FFFFFF;
+}
+
+.title-details {
+    background-color: #252525;
+    margin: 20px 50px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    color: #FFFFFF;
+    text-align: center;
+    position: relative;
+}

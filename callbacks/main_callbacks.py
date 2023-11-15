@@ -22,8 +22,8 @@ def add_main_callbacks(app):
                   [Input('url', 'pathname')])
     def display_page(pathname):
         # Check if the URL has changed
-        if "prev_path" in session and session["prev_path"] == pathname:
-            return no_update
+        #if "prev_path" in session and session["prev_path"] == pathname:
+        #    return no_update
         session["prev_path"] = pathname
         if 'logged_in_user' not in session:
             if pathname == '/register':

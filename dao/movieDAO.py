@@ -9,13 +9,11 @@ class MoviesDAO(TitlesDAO):
     def get_movies(self):
         query = "SELECT t.*, m.playtime FROM titles t JOIN movies m ON t.title_id = m.title_id"
         self.cursor.execute(query)
-        sleep(0.1)
         return self.cursor.fetchall()
 
     def create_movie(self, title, rating, genre, release_year, n_ratings, playtime):
         # Create or update the title entry
         self.create_title(title, rating, genre, release_year, n_ratings)
-        sleep(0.1)
         title_id = self.get_title_id(title, release_year, rating)
 
         # Create or update the movie entry
@@ -23,7 +21,6 @@ class MoviesDAO(TitlesDAO):
         values = (title_id, playtime)
         self.cursor.execute(query, values)
         self.db_conn.commit()
-        sleep(0.1)
 
     def update_movie(self, title, rating, genre, release_year, n_ratings, playtime):
         # Update the title entry
