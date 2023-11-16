@@ -1,4 +1,4 @@
-from dash import Input, Output, State, no_update
+from dash import Input, Output, no_update
 from flask import session
 
 from dao import actorDAO, movieDAO, seriesDAO, ratingsDAO, titlesDAO
@@ -15,20 +15,21 @@ def add_main_callbacks(app):
     from layouts.auth_layout import register_layout, login_layout
     from layouts.main_layout import main_layout
     from layouts.header_layout import get_header_layout
-    # Callback to update the page content based on the URL
 
     @app.callback([Output('page-content', 'children'),
                    Output('url', 'pathname')],
                   [Input('url', 'pathname')])
     def display_page(pathname):
         # Check if the URL has changed
-        #if "prev_path" in session and session["prev_path"] == pathname:
-        #    return no_update
+        if "prev_path" in session and session["prev_path"] == pathname:
+            return no_update
         session["prev_path"] = pathname
+        # Validate user
         if 'logged_in_user' not in session:
             if pathname == '/register':
                 return register_layout, pathname
             return login_layout, '/login'
+        # Display url or main
         header = get_header_layout(session['logged_in_user'])
         if pathname in ['/movies', '/series']:
             return [header, get_titles_layout_from_path(pathname)], pathname
