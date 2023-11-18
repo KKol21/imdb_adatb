@@ -18,7 +18,6 @@ def get_titles_layout(titles_data, name):
                 id="add-title-modal",
                 scrollable=True,
                 size="lg",
-                is_open=False,
                 children=[
                     dbc.ModalTitle(f"Add {name if name == 'series' else 'movie'}"),
                     dbc.ModalBody([
@@ -42,34 +41,64 @@ def get_titles_layout(titles_data, name):
     )
 
 
-add_movie_layout = html.Div([html.Label("Title: "),
-                             dcc.Input(id="movies-title-input",
-                                       type='text'),
-                             html.Label("Rating: ", style={'fontSize': '18px'}),
-                             dcc.Input(id=f'movies-rating-input',
-                                       type='number',
-                                       style={'margin': '10px 10px'}),
-                             html.Label("Number of ratings: ", style={'fontSize': '18px'}),
-                             dcc.Input(id=f'movies-n_ratings-input',
-                                       type='number',
-                                       style={'margin': '10px 10px'}),
-                             html.Label("Release year: ", style={'fontSize': '18px'}),
-                             dcc.Input(id=f'movies-release_year-input',
-                                       type='number',
-                                       style={'margin': '10px 10px'}),
-                             html.Label("Genre: ", style={'fontSize': '18px'}),
-                             dcc.Input(id=f'movies-genre-input',
-                                       type='text',
-                                       style={'margin': '10px 10px'}),
-                             html.Label("Playtime (min): ", style={'fontSize': '18px'}),
-                             dcc.Input(id=f'movies-playtime-input',
-                                       type='number',
-                                       style={'margin': '10px 10px'})],
-                            style={'margin': '10px 10px',
-                                   "display": "flex",
-                                   "flexDirection": "column"})
+def get_add_titles_layout_base(name):
+    return [html.Label("Title: ", style={'fontSize': '18px'}),
+            dcc.Input(id=f"{name}-title-input",
+                      type='text'),
+            html.Label("Rating (1 - 10): ", style={'fontSize': '18px'}),
+            dcc.Input(id=f'{name}-rating-input',
+                      type='number',
+                      min=1,
+                      max=10,
+                      style={'margin': '10px 10px'}),
+            html.Label("Number of ratings: ", style={'fontSize': '18px'}),
+            dcc.Input(id=f'{name}-n_ratings-input',
+                      type='number',
+                      min=1,
+                      step=1,
+                      style={'margin': '10px 10px'}),
+            html.Label("Release year: ", style={'fontSize': '18px'}),
+            dcc.Input(id=f'{name}-release_year-input',
+                      type='number',
+                      min=1896,
+                      step=1,
+                      max=2024,
+                      style={'margin': '10px 10px'}),
+            html.Label("Genre: ", style={'fontSize': '18px'}),
+            dcc.Input(id=f'{name}-genre-input',
+                      type='text',
+                      style={'margin': '10px 10px'})]
 
-add_series_layout = None
+
+add_movie_layout = html.Div(style={'margin': '10px 10px',
+                                   "display": "flex",
+                                   "flexDirection": "column"},
+                            children=get_add_titles_layout_base("movies") + [
+                                html.Label("Playtime (min): ", style={'fontSize': '18px'}),
+                                dcc.Input(id=f'movies-playtime-input',
+                                          type='number',
+                                          min=1,
+                                          step=1,
+                                          style={'margin': '10px 10px'})],
+                            )
+
+add_series_layout = html.Div(style={'margin': '10px 10px',
+                                    "display": "flex",
+                                    "flexDirection": "column"},
+                             children=get_add_titles_layout_base("series") + [
+                                 html.Label("Number of seasons: ", style={'fontSize': '18px'}),
+                                 dcc.Input(id=f'series-n_seasons-input',
+                                           type='number',
+                                           min=1,
+                                           step=1,
+                                           style={'margin': '10px 10px'}),
+                                 html.Label("Number of episodes: ", style={'fontSize': '18px'}),
+                                 dcc.Input(id='series-n_episodes-input',
+                                           type='number',
+                                           min=1,
+                                           step=1,
+                                           )
+                             ])
 
 
 def get_single_title_layout(title_data, name):
@@ -89,7 +118,7 @@ def get_movie_layout(title_data):
                          style={"fontSize": "50px"}),
                 html.Div([
                     html.Div([f"Genre: {genre}"]),
-                    html.Div([f"Rating: {rating}/5 ({n_ratings} ratings)"]),
+                    html.Div([f"Rating: {rating}/10 ({n_ratings} ratings)"]),
                     html.Div([f"Playtime: {playtime} minutes"])
                 ], style={'margin': '20px 0'}),
                 html.Button('Edit title details', id=f'Edit-title', className='button',
@@ -110,12 +139,19 @@ def get_series_layout(series_data):
                          style={"fontSize": "50px"}),
                 html.Div([
                     html.Div(f"Genre: {genre}"),
-                    html.Div(f"Rating: {rating}/5 ({n_ratings} ratings)"),
+                    html.Div(f"Rating: {rating}/10 ({n_ratings} ratings)"),
                     html.Div(f"{n_seasons} seasons, {n_episodes} episodes")
                 ], style={'margin': '20px 0'}),
-                html.Button('Edit title details', id=f'Edit-title',
+                html.Button('Edit title details', id=f'edit-title-button',
                             className='button',
-                            style={'width': '100px', 'right': '10px', 'bottom': '10px', 'position': 'absolute'})
+                            style={'width': '100px', 'right': '10px', 'bottom': '10px', 'position': 'absolute'}),
+                dbc.Modal(
+                    id="add-title-modal",
+                    scrollable=True,
+                    size="lg",
+                    children=[dbc.ModalTitle("Edit series details"),
+                              dbc.ModalBody()]),
+                html.Div(id='edit-title-output')
             ]
         ),
     ])

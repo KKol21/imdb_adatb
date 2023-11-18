@@ -1,5 +1,3 @@
-from dash import Output, Input
-
 from app import app
 from callbacks.auth_callbacks import add_auth_callbacks
 from callbacks.main_callbacks import add_main_callbacks
@@ -12,7 +10,5 @@ if __name__ == '__main__':
     add_auth_callbacks(app)
     add_title_callbacks(app)
     add_main_callbacks(app)
-
-
 
     app.run_server(debug=True)

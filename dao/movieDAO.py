@@ -1,10 +1,14 @@
 from dao.titlesDAO import TitlesDAO
-from time import sleep
 
 
 class MoviesDAO(TitlesDAO):
     def __init__(self, db_conn):
         super().__init__(db_conn)
+
+    def get_movie_ids(self):
+        query = "SELECT title_id FROM movies"
+        self.cursor.execute(query)
+        return self.cursor.fetchall()
 
     def get_movies(self):
         query = "SELECT t.*, m.playtime FROM titles t JOIN movies m ON t.title_id = m.title_id"
