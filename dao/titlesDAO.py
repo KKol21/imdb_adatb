@@ -55,10 +55,16 @@ class TitlesDAO:
         self.cursor.execute(query, values)
         self.db_conn.commit()
 
-    def update_title(self, title_id, rating, genre, release_year, n_ratings):
-        query = """UPDATE titles 
-                   SET rating = %s, genre = %s, release_year = %s, n_ratings = %s
-                   WHERE title_id = %s"""
-        values = (rating, genre, release_year, n_ratings, title_id)
-        self.cursor.execute(query, values)
+    def update_title(self, title_id, new_data: dict):
+        query = "UPDATE titles SET "
+        for field, value in new_data.items():
+            if value is not None:  # Only include non-None values
+                if isinstance(value, str):
+                    query += f"{field} = '{value}', "
+                else:
+                    query += f"{field} = {value}, "
+        query = query.rstrip(", ")
+
+        query += f" WHERE title_id = {title_id}"
+        self.cursor.execute(query)
         self.db_conn.commit()

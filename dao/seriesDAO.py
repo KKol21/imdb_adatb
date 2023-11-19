@@ -20,8 +20,18 @@ class SeriesDAO(TitlesDAO):
         self.cursor.execute(query, values)
         self.db_conn.commit()
 
-    def update_series(self, title_id, n_seasons, n_episodes):
-        query = "UPDATE series SET n_seasons = %s, n_episodes = %s WHERE title_id = %s"
-        values = (n_seasons, n_episodes, title_id)
-        self.cursor.execute(query, values)
-        self.db_conn.commit()
+    def update_series(self, title_id, new_data: dict):
+        self.update_title(title_id, new_data)
+        n_s = new_data["n_seasons"]
+        n_ep = new_data["n_episodes"]
+        val_str = None
+        if n_s and n_ep:
+            val_str = f"n_seasons = {n_s}, n_episodes = {n_ep}"
+        elif n_s:
+            val_str = f"n_seasons = {n_s}"
+        elif n_ep:
+            val_str = f"n_episodes = {n_ep}"
+        if val_str is not None:
+            query = f"UPDATE series SET" + val_str + f"WHERE title_id = {title_id}"
+            self.cursor.execute(query)
+            self.db_conn.commit()

@@ -13,7 +13,7 @@ def get_titles_layout(titles_data, name):
                             'textAlign': 'center',
                             'fontSize': '100px'}),
             dbc.Button(f"Add title",
-                       id="open-modal-button"),
+                       id="open-add-modal-button"),
             dbc.Modal(
                 id="add-title-modal",
                 scrollable=True,
@@ -25,7 +25,7 @@ def get_titles_layout(titles_data, name):
                         html.Div(id=f"submit-title-output")
                     ], style={"height": "80vh"}),
                     dbc.ModalFooter([html.Button(f"Submit", id=f"submit-{name}-button"),
-                                     html.Button(f"Close", id="close-modal-button")]),
+                                     html.Button(f"Close", id="close-add-modal-button")]),
                     html.Div(id=f"add-title-output")
                 ]
             ),
@@ -121,8 +121,22 @@ def get_movie_layout(title_data):
                     html.Div([f"Rating: {rating}/10 ({n_ratings} ratings)"]),
                     html.Div([f"Playtime: {playtime} minutes"])
                 ], style={'margin': '20px 0'}),
-                html.Button('Edit title details', id=f'Edit-title', className='button',
-                            style={'width': '100px', 'right': '10px', 'bottom': '10px', 'position': 'absolute'})
+                dbc.Modal(
+                    id="edit-title-modal",
+                    size="lg",
+                    children=[
+                        dbc.ModalTitle("Edit movie data"),
+                        dbc.ModalBody([add_movie_layout,
+                                       html.Div(id="edit-title-output")]),
+                        dbc.ModalFooter([
+                            html.Button("Edit movie", id="submit-edit-button"),
+                            html.Button("Close", id="close-edit-modal-button")]
+                        )]
+                ),
+                html.Button('Edit movie data', id=f'open-edit-modal-button', className='button',
+                            style={'width': '100px', 'right': '10px', 'bottom': '10px', 'position': 'absolute'}),
+                html.Button('Delete movie data', id='delete-title', className='button',
+                            style={'width': '100px', 'right': '130px', 'bottom': '10px', 'position': 'absolute'}),
             ]
         )
     ])
@@ -142,16 +156,22 @@ def get_series_layout(series_data):
                     html.Div(f"Rating: {rating}/10 ({n_ratings} ratings)"),
                     html.Div(f"{n_seasons} seasons, {n_episodes} episodes")
                 ], style={'margin': '20px 0'}),
-                html.Button('Edit title details', id=f'edit-title-button',
-                            className='button',
-                            style={'width': '100px', 'right': '10px', 'bottom': '10px', 'position': 'absolute'}),
                 dbc.Modal(
-                    id="add-title-modal",
-                    scrollable=True,
+                    id="edit-title-modal",
                     size="lg",
-                    children=[dbc.ModalTitle("Edit series details"),
-                              dbc.ModalBody()]),
-                html.Div(id='edit-title-output')
+                    children=[
+                        dbc.ModalTitle("Edit series data"),
+                        dbc.ModalBody([add_series_layout,
+                                       html.Div(id="edit-title-output")]),
+                        dbc.ModalFooter([
+                            html.Button("Edit series", id="submit-edit-button"),
+                            html.Button("Close", id="close-edit-modal-button")]
+                        )]
+                ),
+                html.Button('Edit series data', id=f'open-edit-modal-button', className='button',
+                            style={'width': '100px', 'right': '10px', 'bottom': '10px', 'position': 'absolute'}),
+                html.Button('Delete series data', id='delete-title', className='button',
+                            style={'width': '100px', 'right': '130px', 'bottom': '10px', 'position': 'absolute'}),
             ]
         ),
     ])
