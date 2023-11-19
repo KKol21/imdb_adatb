@@ -2,10 +2,12 @@ from dash import Output, Input, State
 
 from dao.movieDAO import MoviesDAO
 from dao.seriesDAO import SeriesDAO
+from dao.titlesDAO import TitlesDAO
 from db.db_connector import conn
 
 MoviesDAO = MoviesDAO(db_conn=conn)
 SeriesDAO = SeriesDAO(db_conn=conn)
+TitlesDAO = TitlesDAO(db_conn=conn)
 
 
 def add_title_callbacks(app):
@@ -102,3 +104,24 @@ def add_title_callbacks(app):
         if n_s or n_c:
             return not is_open
         return is_open
+
+    @app.callback(Output("confirm-delete", "displayed"),
+                  [Input("delete-title-button", "n_clicks")])
+    def confirm_delete(n_clicks):
+        if n_clicks is not None:
+            return True
+        return False
+
+    @app.callback(Output("url", "pathname", allow_duplicate=True),
+                  [Input("confirm-delete", "submit_n_clicks")],
+                  State("url", "pathname"),
+                  prevent_initial_call=True)
+    def delete_title(n_clicks, url):
+        if n_clicks:
+            title_id = url.split('/')[2]
+            title_type = TitlesDAO.get_title_type_by_id(title_id=title_id)
+            if title_type == "movie":
+                MoviesDAO.delete_movie(title_id)
+            else:
+                SeriesDAO.delete_series(title_id)
+            return '/movies' if title_type == "movie" else "/series"

@@ -3,6 +3,10 @@ class TitlesDAO:
         self.db_conn = db_conn
         self.cursor = db_conn.cursor()
 
+    def get_title_type_by_id(self, title_id):
+        title_data = self.get_title_by_id_full(title_id)
+        return "movie" if len(title_data) == 7 else "series"
+
     def get_title_details(self, title, rating, release_year):
         title_id = self.get_title_id(title, release_year, rating)
         return self.get_title_by_id_full(title_id)

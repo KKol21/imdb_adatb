@@ -59,7 +59,7 @@ def create_tables(connection):
     CREATE TABLE IF NOT EXISTS Movies (
         title_id INT PRIMARY KEY,
         playtime INT,
-        FOREIGN KEY (title_id) REFERENCES Titles(title_id)
+        FOREIGN KEY (title_id) REFERENCES Titles(title_id) ON DELETE CASCADE
     );
     """
     cursor.execute(create_movies_table)
@@ -70,7 +70,7 @@ def create_tables(connection):
         title_id INT PRIMARY KEY,
         n_seasons INT,
         n_episodes INT,
-        FOREIGN KEY (title_id) REFERENCES Titles(title_id)
+        FOREIGN KEY (title_id) REFERENCES Titles(title_id) ON DELETE CASCADE
     );
     """
     cursor.execute(create_series_table)

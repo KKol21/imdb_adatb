@@ -24,8 +24,9 @@ def get_titles_layout(titles_data, name):
                         add_movie_layout if name == "movies" else add_series_layout,
                         html.Div(id=f"submit-title-output")
                     ], style={"height": "80vh"}),
-                    dbc.ModalFooter([html.Button(f"Submit", id=f"submit-{name}-button"),
-                                     html.Button(f"Close", id="close-add-modal-button")]),
+                    dbc.ModalFooter([html.Button(f"Submit", id=f"submit-{name}-button", className='button'),
+                                     html.Button(f"Close", id="close-add-modal-button", className='button')],
+                                    style={'backgroundColor': '#5A5A5A'}),
                     html.Div(id=f"add-title-output")
                 ]
             ),
@@ -102,76 +103,76 @@ add_series_layout = html.Div(style={'margin': '10px 10px',
 
 
 def get_single_title_layout(title_data, name):
+    del_confirm = dcc.ConfirmDialog(id="confirm-delete",
+                                    message="Are you sure you want to delete this title?")
     if name == "movie":
-        return get_movie_layout(title_data)
-    return get_series_layout(title_data)
+        return html.Div([del_confirm, get_movie_layout(title_data)])
+    return html.Div([del_confirm, get_series_layout(title_data)])
 
 
 def get_movie_layout(title_data):
     title, rating, n_ratings, release_year, genre, playtime = title_data[1:]
 
-    return html.Div([
-        html.Div(
-            className='title-details',
-            children=[
-                html.Div([f"{title} ({release_year})"],
-                         style={"fontSize": "50px"}),
-                html.Div([
-                    html.Div([f"Genre: {genre}"]),
-                    html.Div([f"Rating: {rating}/10 ({n_ratings} ratings)"]),
-                    html.Div([f"Playtime: {playtime} minutes"])
-                ], style={'margin': '20px 0'}),
-                dbc.Modal(
-                    id="edit-title-modal",
-                    size="lg",
-                    children=[
-                        dbc.ModalTitle("Edit movie data"),
-                        dbc.ModalBody([add_movie_layout,
-                                       html.Div(id="edit-title-output")]),
-                        dbc.ModalFooter([
-                            html.Button("Edit movie", id="submit-edit-button"),
-                            html.Button("Close", id="close-edit-modal-button")]
-                        )]
-                ),
-                html.Button('Edit movie data', id=f'open-edit-modal-button', className='button',
-                            style={'width': '100px', 'right': '10px', 'bottom': '10px', 'position': 'absolute'}),
-                html.Button('Delete movie data', id='delete-title', className='button',
-                            style={'width': '100px', 'right': '130px', 'bottom': '10px', 'position': 'absolute'}),
-            ]
-        )
-    ])
+    return html.Div(
+        className='title-details',
+        children=[
+            html.Div([f"{title} ({release_year})"],
+                     style={"fontSize": "50px"}),
+            html.Div([
+                html.Div([f"Genre: {genre}"]),
+                html.Div([f"Rating: {rating}/10 ({n_ratings} ratings)"]),
+                html.Div([f"Playtime: {playtime} minutes"])
+            ], style={'margin': '20px 0'}),
+            dbc.Modal(
+                id="edit-title-modal",
+                size="lg",
+                children=[
+                    dbc.ModalTitle("Edit movie data"),
+                    dbc.ModalBody([add_movie_layout,
+                                   html.Div(id="edit-title-output")]),
+                    dbc.ModalFooter([
+                        html.Button("Edit movie", id="submit-edit-button", className='button'),
+                        html.Button("Close", id="close-edit-modal-button", className='button')],
+                        style={'backgroundColor': '#5A5A5A'}
+                    )]
+            ),
+            html.Button('Edit movie data', id=f'open-edit-modal-button', className='button',
+                        style={'width': '100px', 'right': '10px', 'bottom': '10px', 'position': 'absolute'}),
+            html.Button('Delete movie data', id='delete-title-button', className='button',
+                        style={'width': '100px', 'right': '130px', 'bottom': '10px', 'position': 'absolute'}),
+        ]
+    )
 
 
 def get_series_layout(series_data):
     title, rating, n_ratings, release_year, genre, n_seasons, n_episodes = series_data[1:]
 
-    return html.Div([
-        html.Div(
-            className='title-details',
-            children=[
-                html.Div(f"{title} ({release_year})",
-                         style={"fontSize": "50px"}),
-                html.Div([
-                    html.Div(f"Genre: {genre}"),
-                    html.Div(f"Rating: {rating}/10 ({n_ratings} ratings)"),
-                    html.Div(f"{n_seasons} seasons, {n_episodes} episodes")
-                ], style={'margin': '20px 0'}),
-                dbc.Modal(
-                    id="edit-title-modal",
-                    size="lg",
-                    children=[
-                        dbc.ModalTitle("Edit series data"),
-                        dbc.ModalBody([add_series_layout,
-                                       html.Div(id="edit-title-output")]),
-                        dbc.ModalFooter([
-                            html.Button("Edit series", id="submit-edit-button"),
-                            html.Button("Close", id="close-edit-modal-button")]
-                        )]
-                ),
-                html.Button('Edit series data', id=f'open-edit-modal-button', className='button',
-                            style={'width': '100px', 'right': '10px', 'bottom': '10px', 'position': 'absolute'}),
-                html.Button('Delete series data', id='delete-title', className='button',
-                            style={'width': '100px', 'right': '130px', 'bottom': '10px', 'position': 'absolute'}),
-            ]
-        ),
-    ])
+    return html.Div(
+        className='title-details',
+        children=[
+            html.Div(f"{title} ({release_year})",
+                     style={"fontSize": "50px"}),
+            html.Div([
+                html.Div(f"Genre: {genre}"),
+                html.Div(f"Rating: {rating}/10 ({n_ratings} ratings)"),
+                html.Div(f"{n_seasons} seasons, {n_episodes} episodes")
+            ], style={'margin': '20px 0'}),
+            dbc.Modal(
+                id="edit-title-modal",
+                size="lg",
+                children=[
+                    dbc.ModalTitle("Edit series data"),
+                    dbc.ModalBody([add_series_layout,
+                                   html.Div(id="edit-title-output")]),
+                    dbc.ModalFooter([
+                        html.Button("Edit series", id="submit-edit-button"),
+                        html.Button("Close", id="close-edit-modal-button")],
+                        style={'backgroundColor': '#5A5A5A'}
+                    )]
+            ),
+            html.Button('Edit series data', id=f'open-edit-modal-button', className='button',
+                        style={'width': '100px', 'right': '10px', 'bottom': '10px', 'position': 'absolute'}),
+            html.Button('Delete series data', id='delete-title-button', className='button',
+                        style={'width': '100px', 'right': '130px', 'bottom': '10px', 'position': 'absolute'}),
+        ]
+    )

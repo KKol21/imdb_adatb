@@ -32,3 +32,6 @@ class MoviesDAO(TitlesDAO):
             query = f"UPDATE movies SET playtime = {new_data['playtime']} WHERE title_id = {title_id}"
             self.cursor.execute(query)
             self.db_conn.commit()
+
+    def delete_movie(self, title_id):
+        self.cursor.execute(f"DELETE FROM movies WHERE title_id = {title_id}")

@@ -35,3 +35,6 @@ class SeriesDAO(TitlesDAO):
             query = f"UPDATE series SET" + val_str + f"WHERE title_id = {title_id}"
             self.cursor.execute(query)
             self.db_conn.commit()
+
+    def delete_series(self, title_id):
+        self.cursor.execute(f"DELETE FROM SERIES WHERE title_id = {title_id}")
