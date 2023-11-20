@@ -35,3 +35,4 @@ class MoviesDAO(TitlesDAO):
 
     def delete_movie(self, title_id):
         self.cursor.execute(f"DELETE FROM movies WHERE title_id = {title_id}")
+        self.db_conn.commit()

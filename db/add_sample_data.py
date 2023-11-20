@@ -1,5 +1,6 @@
 import random
-from dao import movieDAO, seriesDAO
+from dao import movieDAO, seriesDAO, actorDAO
+from faker import Faker
 from db.db_connector import conn
 
 
@@ -74,7 +75,7 @@ def generate_creative_entries():
     for i in range(20):
         title = random.choice(series_titles)
         series_titles.remove(title)
-        rating = round(random.uniform(3, 5), 2)
+        rating = round(random.uniform(3, 10), 2)
         genre = random.choice(genres)
         release_year = random.randint(1990, 2023)
         n_ratings = random.randint(50, 500)
@@ -87,16 +88,35 @@ def generate_creative_entries():
     return entries
 
 
+def generate_actor_data():
+    entries = []
+    for _ in range(100):
+        fake = Faker()
+        nationalities = ['Martian', 'Atlantean', 'Time Traveler', 'Candy Kingdom', 'Middle-earth']
+        name = fake.name()
+        nationality = random.choice(nationalities)
+        date_of_birth = fake.date_of_birth(minimum_age=18, maximum_age=80).strftime('%Y-%m-%d')
+        entries.append({"name": name, "nationality": nationality, "date_of_birth": date_of_birth})
+    return entries
+
+
 # Assuming you have an instance of your class called imdb_instance
-movieDao = movieDAO.MoviesDAO(db_conn=conn)
-seriesDao = seriesDAO.SeriesDAO(db_conn=conn)
+movieDAO = movieDAO.MoviesDAO(db_conn=conn)
+seriesDAO = seriesDAO.SeriesDAO(db_conn=conn)
+actorDAO = actorDAO.ActorDAO()
 
 
 # Generate and insert creative movie and series entries
 def fillDatabase():
     creative_entries = generate_creative_entries()
-    for data in creative_entries:
-        if "playtime" in data:
-            movieDao.create_movie(**data)
-        elif "n_seasons" in data and "n_episodes" in data:
-            seriesDao.create_series(**data)
+    do_titles = False
+    do_actors = True
+    if do_titles:
+        for data in creative_entries:
+            if "playtime" in data:
+                movieDAO.create_movie(**data)
+            elif "n_seasons" in data and "n_episodes" in data:
+                seriesDAO.create_series(**data)
+    if do_actors:
+        for actor in generate_actor_data():
+            actorDAO.create_actor(**actor)

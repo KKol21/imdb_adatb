@@ -59,7 +59,7 @@ def add_title_callbacks(app):
 
     @app.callback(
         Output("edit-title-output", "children"),
-        [Input('submit-edit-button', "n_clicks")],
+        [Input('submit-edit-movie-button', "n_clicks")],
         [State(f"movies-{col}-input", "value") for col in
          ["title", "rating", "genre", "release_year", "n_ratings", "playtime"]]
         + [State("url", "pathname")],
@@ -78,7 +78,7 @@ def add_title_callbacks(app):
 
     @app.callback(
         Output("edit-title-output", "children", allow_duplicate=True),
-        [Input("submit-edit-button", "n_clicks")],
+        [Input("submit-edit-series-button", "n_clicks")],
         [State(f"series-{col}-input", "value") for col in
          ["title", "rating", "genre", "release_year", "n_ratings", "n_seasons", "n_episodes"]]
         + [State("url", "pathname")],

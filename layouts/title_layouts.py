@@ -131,7 +131,7 @@ def get_movie_layout(title_data):
                     dbc.ModalBody([add_movie_layout,
                                    html.Div(id="edit-title-output")]),
                     dbc.ModalFooter([
-                        html.Button("Edit movie", id="submit-edit-button", className='button'),
+                        html.Button("Edit movie", id="submit-edit-movie-button", className='button'),
                         html.Button("Close", id="close-edit-modal-button", className='button')],
                         style={'backgroundColor': '#5A5A5A'}
                     )]
@@ -165,7 +165,7 @@ def get_series_layout(series_data):
                     dbc.ModalBody([add_series_layout,
                                    html.Div(id="edit-title-output")]),
                     dbc.ModalFooter([
-                        html.Button("Edit series", id="submit-edit-button"),
+                        html.Button("Edit series", id="submit-edit-series-button"),
                         html.Button("Close", id="close-edit-modal-button")],
                         style={'backgroundColor': '#5A5A5A'}
                     )]

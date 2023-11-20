@@ -1,7 +1,5 @@
 from dash import html, dcc
 
-from colors import light_red, purple, white
-
 basic_header = None
 
 
@@ -19,12 +17,13 @@ def get_logged_header(username):
                         html.Button('IMDB', id="imdb-button"),
                         html.Button('Movies', id='movies-button', className='msa-button'),
                         html.Button('Series', id='series-button', className='msa-button'),
-                        html.Button('Actors', id='actor-button',  className='msa-button'),
+                        html.Button('Actors', id='actors-button', className='msa-button'),
                         html.Div(id='logout-corner',
                                  children=[
-                                    html.Div(f'Logged in as {username}', style={'fontSize': '20px', 'color': '#FFFFFF'}),
-                                    html.Button('Logout', id='logout-button', className='button')
+                                     html.Div(f'Logged in as {username}',
+                                              style={'fontSize': '20px', 'color': '#FFFFFF'}),
+                                     html.Button('Logout', id='logout-button', className='button')
                                  ]
-                        )
+                                 )
                     ]
-    )
+                    )

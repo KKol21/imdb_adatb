@@ -43,3 +43,10 @@ def add_redirect_callbacks(app):
     def redirect_series(n_clicks):
         if n_clicks is not None:
             return '/series'
+
+    @app.callback(url_out,
+                  [Input('actors-button', 'n_clicks')],
+                  prevent_initial_call=True)
+    def redirect_actors(n_clicks):
+        if n_clicks is not None:
+            return '/actors'

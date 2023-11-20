@@ -4,7 +4,7 @@ from flask import session
 from dao import actorDAO, movieDAO, seriesDAO, ratingsDAO, titlesDAO
 from db.db_connector import conn
 
-actor_dao = actorDAO.ActorDAO(db_conn=conn)
+actor_dao = actorDAO.ActorDAO()
 movie_dao = movieDAO.MoviesDAO(db_conn=conn)
 series_dao = seriesDAO.SeriesDAO(db_conn=conn)
 ratings_dao = ratingsDAO.RatingsDAO(db_conn=conn)
@@ -15,6 +15,7 @@ def add_main_callbacks(app):
     from layouts.auth_layout import register_layout, login_layout
     from layouts.main_layout import main_layout
     from layouts.header_layout import get_header_layout
+    from layouts.actors_layout import actors_layout
 
     @app.callback([Output('page-content', 'children'),
                    Output('url', 'pathname')],
@@ -31,11 +32,15 @@ def add_main_callbacks(app):
             return login_layout, '/login'
         # Display url or main
         header = get_header_layout(session['logged_in_user'])
+        result = main_layout
+        new_url = '/main'
         if pathname in ['/movies', '/series']:
-            return [header, get_titles_layout_from_path(pathname)], pathname
+            result, new_url = get_titles_layout_from_path(pathname), pathname
         if '/title' in pathname:
-            return [header, get_title_layout_from_path(pathname)], pathname
-        return [header, main_layout], '/main'
+            result, new_url = get_title_layout_from_path(pathname), pathname
+        if '/actors' == pathname:
+            result, new_url = actors_layout, pathname
+        return [header, result], new_url
 
 
 def get_titles_layout_from_path(pathname):
