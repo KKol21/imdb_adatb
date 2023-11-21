@@ -5,9 +5,9 @@ from dao.seriesDAO import SeriesDAO
 from dao.titlesDAO import TitlesDAO
 from db.db_connector import conn
 
-MoviesDAO = MoviesDAO(db_conn=conn)
-SeriesDAO = SeriesDAO(db_conn=conn)
-TitlesDAO = TitlesDAO(db_conn=conn)
+MoviesDAO = MoviesDAO()
+SeriesDAO = SeriesDAO()
+TitlesDAO = TitlesDAO()
 
 
 def add_title_callbacks(app):

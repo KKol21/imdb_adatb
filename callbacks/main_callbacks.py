@@ -5,10 +5,10 @@ from dao import actorDAO, movieDAO, seriesDAO, ratingsDAO, titlesDAO
 from db.db_connector import conn
 
 actor_dao = actorDAO.ActorDAO()
-movie_dao = movieDAO.MoviesDAO(db_conn=conn)
-series_dao = seriesDAO.SeriesDAO(db_conn=conn)
+movie_dao = movieDAO.MoviesDAO()
+series_dao = seriesDAO.SeriesDAO()
 ratings_dao = ratingsDAO.RatingsDAO(db_conn=conn)
-titles_dao = titlesDAO.TitlesDAO(db_conn=conn)
+titles_dao = titlesDAO.TitlesDAO()
 
 
 def add_main_callbacks(app):

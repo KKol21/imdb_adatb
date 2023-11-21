@@ -1,7 +1,10 @@
+from db.db_connector import conn
+
+
 class TitlesDAO:
-    def __init__(self, db_conn):
-        self.db_conn = db_conn
-        self.cursor = db_conn.cursor()
+    def __init__(self):
+        self.db_conn = conn
+        self.cursor = conn.cursor()
 
     def get_title_type_by_id(self, title_id):
         title_data = self.get_title_by_id_full(title_id)

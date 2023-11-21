@@ -91,8 +91,8 @@ def create_tables(connection):
     CREATE TABLE IF NOT EXISTS Featured (
         title_id INT,
         actor_id INT,
-        FOREIGN KEY (title_id) REFERENCES Titles (title_id),
-        FOREIGN KEY (actor_id) REFERENCES Actors (actor_id),
+        FOREIGN KEY (title_id) REFERENCES Titles (title_id) ON DELETE CASCADE,
+        FOREIGN KEY (actor_id) REFERENCES Actors (actor_id) ON DELETE CASCADE,
         PRIMARY KEY (title_id, actor_id)
     );
     """

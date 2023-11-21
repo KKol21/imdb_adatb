@@ -10,7 +10,7 @@ from db import create_tables, add_sample_data
 # Run the app
 if __name__ == '__main__':
     #create_tables.create_db_with_tables()
-#    add_sample_data.fillDatabase()
+    add_sample_data.fillDatabase()
 
     add_redirect_callbacks(app)
     add_auth_callbacks(app)

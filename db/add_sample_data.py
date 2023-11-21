@@ -90,7 +90,7 @@ def generate_creative_entries():
 
 def generate_actor_data():
     entries = []
-    for _ in range(100):
+    for _ in range(200):
         fake = Faker()
         nationalities = ['Martian', 'Atlantean', 'Time Traveler', 'Candy Kingdom', 'Middle-earth']
         name = fake.name()
@@ -100,23 +100,66 @@ def generate_actor_data():
     return entries
 
 
-# Assuming you have an instance of your class called imdb_instance
-movieDAO = movieDAO.MoviesDAO(db_conn=conn)
-seriesDAO = seriesDAO.SeriesDAO(db_conn=conn)
+def generate_feature_data():
+    cursor = conn.cursor()
+    cursor.execute('SELECT actor_id FROM actors')
+    actor_ids = cursor.fetchall()
+    cursor.execute('SELECT title_id FROM movies')
+    movie_ids = cursor.fetchall()
+    cursor.execute('SELECT title_id FROM titles')
+    title_ids = cursor.fetchall()
+
+    most_movie_actor_id = actor_ids[0]
+    featured = []
+    for _ in range(10):
+        row = (most_movie_actor_id[0], random.choice(movie_ids)[0])
+        movie_ids.remove((row[1],))
+        if row not in featured:
+            featured.append(row)
+
+    for actor_id in actor_ids:
+        for _ in range(3):
+            row = (actor_id[0], random.choice(title_ids)[0])
+            if row not in featured:
+                featured.append(row)
+    """for title_id in title_ids:
+        for _ in range(3):
+            row = (random.choice(actor_ids)[0], title_id[0])
+            if row not in featured:
+                featured.append(row)"""
+    return featured
+
+
+movieDAO = movieDAO.MoviesDAO()
+seriesDAO = seriesDAO.SeriesDAO()
 actorDAO = actorDAO.ActorDAO()
 
 
 # Generate and insert creative movie and series entries
 def fillDatabase():
-    creative_entries = generate_creative_entries()
+    cursor = conn.cursor()
+
     do_titles = False
-    do_actors = True
+    do_actors = False
+    do_features = False
+
     if do_titles:
+        cursor.execute("DELETE FROM titles")
+        conn.commit()
+        creative_entries = generate_creative_entries()
         for data in creative_entries:
             if "playtime" in data:
                 movieDAO.create_movie(**data)
             elif "n_seasons" in data and "n_episodes" in data:
                 seriesDAO.create_series(**data)
     if do_actors:
+        actorDAO.delete_actors()
         for actor in generate_actor_data():
             actorDAO.create_actor(**actor)
+    if do_features:
+        cursor.execute("DELETE FROM featured")
+        conn.commit()
+        for feature in generate_feature_data():
+            query = "INSERT INTO featured (actor_id, title_id) VALUES (%s, %s)"
+            cursor.execute(query, feature)
+            conn.commit()

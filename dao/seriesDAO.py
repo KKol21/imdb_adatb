@@ -2,8 +2,8 @@ from dao.titlesDAO import TitlesDAO
 
 
 class SeriesDAO(TitlesDAO):
-    def __init__(self, db_conn):
-        super().__init__(db_conn)
+    def __init__(self):
+        super().__init__()
 
     def get_series(self):
         query = "SELECT t.*, s.n_seasons, s.n_episodes FROM titles t JOIN series s ON t.title_id = s.title_id"

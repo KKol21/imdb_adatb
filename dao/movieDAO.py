@@ -2,8 +2,8 @@ from dao.titlesDAO import TitlesDAO
 
 
 class MoviesDAO(TitlesDAO):
-    def __init__(self, db_conn):
-        super().__init__(db_conn)
+    def __init__(self):
+        super().__init__()
 
     def get_movie_ids(self):
         query = "SELECT title_id FROM movies"
