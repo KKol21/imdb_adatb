@@ -28,7 +28,78 @@ def generate_creative_entries():
         "Spectral Sonata",
         "Stellar Enchantment",
         "Oracle's Overture",
-        "Infinite Illusion"
+        "Infinite Illusion",
+        "Quantum Echoes",
+        "Midnight Serenade",
+        "Nebula Odyssey",
+        "Enigma's Embrace",
+        "Whispering Shadows",
+        "Ephemeral Eternity",
+        "Chromatic Chronicles",
+        "Labyrinth of Illusions",
+        "Stellar Reverie",
+        "Velvet Mirage",
+        "Celestial Catalyst",
+        "Solitude Symphony",
+        "Sirens of Synchrony",
+        "Aether Alchemy",
+        "Echoes of Epochs",
+        "Penumbral Paradox",
+        "Serendipity Solstice",
+        "Ethereal Escapade",
+        "Kaleidoscope Dreams",
+        "Paradigm Flux",
+        "Phantasmal Odyssey",
+        "Astral Ascendance",
+        "Nebulous Nocturne",
+        "Zephyr's Zephyros",
+        "Luminescent Labyrinth",
+        "Ethereal Enchantment",
+        "Cynosure Chronicles",
+        "Enigmatic Epoch",
+        "Lucid Lullabies",
+        "Quasar Quest",
+        "Vortex Vignettes",
+        "Cascade Constellations",
+        "Juxtaposed Journeys",
+        "Oracle of Oceans",
+        "Velvet Vortex",
+        "Enchanted Echo",
+        "Celestial Cipher",
+        "Quantum Quiescence",
+        "Pondering Paradox",
+        "Harmonic Hues",
+        "Spectrum Sonata",
+        "Kingdom's Whisper",
+        "Parisian Echoes",
+        "Gotham Grief",
+        "Culinary Crossroads",
+        "Street Symphony",
+        "Chivalrous Betrayal",
+        "Renaissance Rendezvous",
+        "Café Noir Chronicles",
+        "Steel Serenade",
+        "Two Wheels Tango",
+        "The Searing Forge",
+        "Les Misérables Redux",
+        "Shadows of Bourbon Street",
+        "Noir Nostalgia",
+        "Culinary Vendetta",
+        "Gearhead's Lament",
+        "Knights of the Round Tableau",
+        "American Tragedy",
+        "Boulangerie Brawl",
+        "Thunder on Two Wheels",
+        "Dynasty Discord",
+        "Bastille Reckoning",
+        "Vengeance on Vichy",
+        "Gear Shift Confessions",
+        "Medieval Melancholy",
+        "Éclair Elegy",
+        "Sons of Steel",
+        "Culinary Conspiracies",
+        "Road Rash Redemption",
+        "Mafia Masquerade"
     ]
 
     series_titles = [
@@ -51,7 +122,16 @@ def generate_creative_entries():
         "Infinity Incognito",
         "Celestial Cipher",
         "Dreamscape Dynasty",
-        "The Astral Almanac"
+        "The Astral Almanac",
+        "Midnight Mosaic",
+        "Aegis of Arcadia",
+        "Celestial Cipher",
+        "Timeless Twilight",
+        "Arcane Aria",
+        "Velvet Vanguard",
+        "Enigmatic Equinox",
+        "Cosmic Caravan",
+        "Ethereal Echoes"
     ]
 
     genres = ["Sci-Fi", "Fantasy", "Mystery", "Adventure", "Drama", "Thriller", "Romance"]
@@ -59,10 +139,12 @@ def generate_creative_entries():
     entries = []
 
     # Generate creative entries for movies
-    for i in range(20):
+    for i in range(len(movie_titles)):
         title = random.choice(movie_titles)
         movie_titles.remove(title)
-        rating = round(random.uniform(3, 5), 2)
+        rating = round(random.uniform(3, 10), 2)
+        if rating == int(rating):
+            rating = int(rating)
         genre = random.choice(genres)
         release_year = random.randint(1980, 2023)
         n_ratings = random.randint(50, 2000)
@@ -72,12 +154,12 @@ def generate_creative_entries():
              "playtime": playtime})
 
     # Generate creative entries for series
-    for i in range(20):
+    for i in range(len(series_titles)):
         title = random.choice(series_titles)
         series_titles.remove(title)
         rating = round(random.uniform(3, 10), 2)
         genre = random.choice(genres)
-        release_year = random.randint(1990, 2023)
+        release_year = random.randint(2010, 2023)
         n_ratings = random.randint(50, 500)
         n_seasons = random.randint(1, 8)
         n_episodes = random.randint(10, 20)
@@ -139,9 +221,9 @@ actorDAO = actorDAO.ActorDAO()
 def fillDatabase():
     cursor = conn.cursor()
 
-    do_titles = False
-    do_actors = False
-    do_features = False
+    do_titles = True
+    do_actors = True
+    do_features = True
 
     if do_titles:
         cursor.execute("DELETE FROM titles")

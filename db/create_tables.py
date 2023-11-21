@@ -41,19 +41,6 @@ def create_tables(connection):
         """
     cursor.execute(create_titles_table)
 
-    # Create Ratings table
-    create_ratings_table = """
-    CREATE TABLE IF NOT EXISTS Ratings (
-        username VARCHAR(255),
-        title_id INT,
-        rating FLOAT,
-        FOREIGN KEY (username) REFERENCES Users(username),
-        FOREIGN KEY (title_id) REFERENCES Titles(title_id),
-        PRIMARY KEY (username, title_id)
-    );
-    """
-    cursor.execute(create_ratings_table)
-
     # Create Movies table
     create_movies_table = """
     CREATE TABLE IF NOT EXISTS Movies (
@@ -74,6 +61,19 @@ def create_tables(connection):
     );
     """
     cursor.execute(create_series_table)
+
+    # Create Ratings table
+    create_ratings_table = """
+    CREATE TABLE IF NOT EXISTS Ratings (
+        username VARCHAR(255),
+        title_id INT,
+        rating FLOAT,
+        FOREIGN KEY (username) REFERENCES Users(username),
+        FOREIGN KEY (title_id) REFERENCES Titles(title_id),
+        PRIMARY KEY (username, title_id)
+    );
+    """
+    cursor.execute(create_ratings_table)
 
     # Create Actors table
     create_actors_table = """

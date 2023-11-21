@@ -20,7 +20,7 @@ def add_actor_callbacks(app):
             actorDAO.create_actor("", "", "")
 
             # Retrieve updated data for the table
-            return actorDAO.get_actors()
+            return actorDAO.get_actors_dict()
 
     # Dash callback to save changes and delete empty rows
     @app.callback(
@@ -44,4 +44,4 @@ def add_actor_callbacks(app):
             sleep(0.2)
 
             # Retrieve updated data for the table
-            return actorDAO.get_actors()
+            return actorDAO.get_actors_dict()

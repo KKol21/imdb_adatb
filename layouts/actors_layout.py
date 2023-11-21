@@ -18,7 +18,7 @@ actors_layout = html.Div([
         row_deletable=True,
         editable=True,
         style_table={'overflowX': 'auto'},
-        data=actorDAO.get_actors()
+        data=actorDAO.get_actors_dict()
     ),
 
     # Button to add a new row

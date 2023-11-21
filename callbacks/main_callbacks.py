@@ -13,7 +13,7 @@ titles_dao = titlesDAO.TitlesDAO()
 
 def add_main_callbacks(app):
     from layouts.auth_layout import register_layout, login_layout
-    from layouts.main_layout import main_layout
+    from layouts.main_layout import get_main_layout
     from layouts.header_layout import get_header_layout
     from layouts.actors_layout import actors_layout
 
@@ -30,10 +30,12 @@ def add_main_callbacks(app):
             if pathname == '/register':
                 return register_layout, pathname
             return login_layout, '/login'
+
         # Display url or main
         header = get_header_layout(session['logged_in_user'])
-        result = main_layout
+        result = get_main_layout()
         new_url = '/main'
+
         if pathname in ['/movies', '/series']:
             result, new_url = get_titles_layout_from_path(pathname), pathname
         if '/title' in pathname:
