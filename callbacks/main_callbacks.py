@@ -1,13 +1,12 @@
 from dash import Input, Output, no_update
 from flask import session
 
-from dao import actorDAO, movieDAO, seriesDAO, ratingsDAO, titlesDAO
+from dao import actorDAO, movieDAO, seriesDAO, titlesDAO
 from db.db_connector import conn
 
 actor_dao = actorDAO.ActorDAO()
 movie_dao = movieDAO.MoviesDAO()
 series_dao = seriesDAO.SeriesDAO()
-ratings_dao = ratingsDAO.RatingsDAO(db_conn=conn)
 titles_dao = titlesDAO.TitlesDAO()
 
 
