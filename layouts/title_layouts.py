@@ -123,6 +123,7 @@ def get_movie_layout(title_data):
                 html.Div([f"Rating: {rating}/10 ({n_ratings} ratings)"]),
                 html.Div([f"Playtime: {playtime} minutes"])
             ], style={'margin': '20px 0'}),
+            rating_part,
             dbc.Modal(
                 id="edit-title-modal",
                 size="lg",
@@ -157,6 +158,7 @@ def get_series_layout(series_data):
                 html.Div(f"Rating: {rating}/10 ({n_ratings} ratings)"),
                 html.Div(f"{n_seasons} seasons, {n_episodes} episodes")
             ], style={'margin': '20px 0'}),
+            rating_part,
             dbc.Modal(
                 id="edit-title-modal",
                 size="lg",
@@ -176,3 +178,12 @@ def get_series_layout(series_data):
                         style={'width': '100px', 'right': '130px', 'bottom': '10px', 'position': 'absolute'}),
         ]
     )
+
+
+rating_part = html.Div([dcc.RadioItems(
+        id='rating-radio',
+        options=[
+            {'label': str(i), 'value': i} for i in range(1, 11)
+        ]),
+    html.Button("Rate title", id='rate-title-button'),
+    html.Div(id="rating-output")])

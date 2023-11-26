@@ -24,7 +24,7 @@ class TitlesDAO:
     def get_title_by_id(self, title_id):
         query = "SELECT * FROM titles WHERE title_id = %s"
         self.cursor.execute(query, (title_id,))
-        return self.cursor.fetchone[0]
+        return self.cursor.fetchone()
 
     def get_title_by_id_full(self, title_id):
         query = f"""

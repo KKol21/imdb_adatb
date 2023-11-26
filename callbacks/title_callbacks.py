@@ -9,6 +9,7 @@ MoviesDAO = MoviesDAO()
 SeriesDAO = SeriesDAO()
 TitlesDAO = TitlesDAO()
 
+cursor = conn.cursor()
 
 def add_title_callbacks(app):
     @app.callback(
@@ -125,3 +126,40 @@ def add_title_callbacks(app):
             else:
                 SeriesDAO.delete_series(title_id)
             return '/movies' if title_type == "movie" else "/series"
+
+    @app.callback(Output("rating-output", "children"),
+                  [Input("rate-title-button", "n_clicks")],
+                  [State("rating-radio", "value"),
+                  State("url", "pathname")])
+    def rate_title(n_clicks, rating, pathname):
+        from flask import session
+        if n_clicks:
+            username = session["logged_in_user"]
+            title_id = pathname.split('/')[2]
+            cursor.execute(f"SELECT rating FROM ratings WHERE username = '{username}' AND title_id = {title_id}")
+            user_prev_rating = cursor.fetchone()
+            if user_prev_rating is not None:
+                is_replace = True
+            else:
+                is_replace = False
+            cursor.execute(f'INSERT INTO ratings (username, title_id, rating)'
+                           f' VALUES (\'{username}\', {title_id}, {rating}) ON DUPLICATE KEY UPDATE rating = {rating}')
+
+            conn.commit()
+
+            title_data = TitlesDAO.get_title_by_id(title_id)
+            n_ratings = title_data[3]
+            prev_rating = title_data[2]
+            if is_replace:
+                new_rating = (prev_rating * n_ratings - user_prev_rating[0] + rating) / n_ratings
+                new_rating = round(new_rating, 3)
+                TitlesDAO.update_title(title_id=title_id,
+                                       new_data={"n_ratings": n_ratings,
+                                                 "rating": new_rating})
+            else:
+                new_rating = (prev_rating * n_ratings + rating) / (n_ratings + 1)
+                new_rating = round(new_rating, 3)
+                TitlesDAO.update_title(title_id=title_id,
+                                       new_data={"n_ratings": n_ratings + 1,
+                                                 "rating": new_rating})
+            return "Title rated"

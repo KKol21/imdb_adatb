@@ -4,7 +4,7 @@ from faker import Faker
 from db.db_connector import conn
 
 
-Cdef generate_creative_entries():
+def generate_creative_entries():
     movie_titles = [
         "The Quantum Paradox",
         "Eternal Moonlight",
