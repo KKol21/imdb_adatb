@@ -33,13 +33,12 @@ def add_actor_callbacks(app):
         if n_clicks:
             # Delete rows with empty values
             empty_rows = [idx for idx, row in enumerate(data)
-                          if all(value == '' or value is None for value in list(row.values())[1:])]
+                          if all(value == '' or value is None for value in row.values())]
             data = [row for idx, row in enumerate(data) if idx not in empty_rows]
 
             # Remake the table with the current data
             actorDAO.delete_actors()
             for row in data:
-                row = dict(list(row.items())[1:])
                 actorDAO.create_actor(**row)
             sleep(0.2)
 

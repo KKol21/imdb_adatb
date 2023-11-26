@@ -18,7 +18,7 @@ class ActorDAO:
         return result[0]
 
     def get_actors_dict(self):
-        query = "SELECT * FROM actors"
+        query = "SELECT name, nationality, date_of_birth FROM actors"
         self.cursor.execute(query)
         rows = self.cursor.fetchall()
 

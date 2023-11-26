@@ -8,7 +8,6 @@ from flask_session import Session
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 # Flask-Session setup
 app.server.config['SESSION_TYPE'] = 'filesystem'
-app.server.config['SECRET_KEY'] = 'titok'
 app.server.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=10)
 Session(app.server)
 

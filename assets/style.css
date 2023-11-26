@@ -72,3 +72,10 @@
     text-align: center;
     position: relative;
 }
+
+.dashboard {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold
+}

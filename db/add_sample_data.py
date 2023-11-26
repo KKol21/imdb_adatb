@@ -4,10 +4,7 @@ from faker import Faker
 from db.db_connector import conn
 
 
-# Assuming you have a class with the methods create_title, create_series, create_movie
-
-# Function to generate creative entries for movies and series
-def generate_creative_entries():
+Cdef generate_creative_entries():
     movie_titles = [
         "The Quantum Paradox",
         "Eternal Moonlight",
@@ -217,11 +214,10 @@ seriesDAO = seriesDAO.SeriesDAO()
 actorDAO = actorDAO.ActorDAO()
 
 
-# Generate and insert creative movie and series entries
 def fillDatabase():
     cursor = conn.cursor()
 
-    do_titles = True
+    do_titles = False
     do_actors = True
     do_features = True
 

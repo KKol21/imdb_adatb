@@ -103,14 +103,10 @@ def create_tables(connection):
 
 def create_db_with_tables():
 
-    # Create a connection to the MySQL server
     connection = create_connection()
 
     if connection:
-        # Create the database if it doesn't exist
         create_database(connection, "imdb")
-
-        # Connect to the 'imdb' database
         connection = connect(
             user="root",
             host="localhost",
@@ -118,10 +114,7 @@ def create_db_with_tables():
         )
 
         if connection:
-            # Create tables
             create_tables(connection)
-
-            # Close the connection
             connection.close()
     else:
         print("Unable to establish a connection to the MySQL server.")
